@@ -2,8 +2,10 @@
   "name": "batcave",
   "version": "0.0.1",
   "description": "It's not what you think",
-  "main": "app.js",
+  "main": "start.js",
   "scripts": {
+    "postinstall": "browserify ./resources/js/app.js -o ./public/app.js",
+    "start": "node start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +20,28 @@
   "bugs": {
     "url": "https://github.com/stianba/batcave/issues"
   },
-  "homepage": "https://github.com/stianba/batcave#readme"
+  "homepage": "https://github.com/stianba/batcave#readme",
+  "dependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "react": "^0.14.5",
+    "react-dom": "^0.14.5",
+    "socket.io": "^1.3.7"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  }
 }
