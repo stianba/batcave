@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 
 class Slogan extends Component {
   constructor(props) {
@@ -23,15 +24,15 @@ class Slogan extends Component {
   }
 
   __handleTime() {
-    if (typeof window !== 'undefined') {
-      window.setInterval(() => {
-        this.setState({
-          time: this.state.time + 1
-        });
-      }, 1000);
-    } else {
+    if (typeof window === 'undefined') {
       return false;
     }
+
+    window.setInterval(() => {
+      this.setState({
+        time: this.state.time + 1
+      });
+    }, 1000);
   }
 }
 

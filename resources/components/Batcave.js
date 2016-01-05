@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import Slogan from './Slogan';
+import Slogan from './slogan';
+import {slogans, currentSlogan} from '../../api/slogans.js';
 
 class Batcave extends Component {
   render() {
-    return <Slogan slogan="The wind is pillemisbruk" time={10} />;
+    return <Slogan slogan={currentSlogan} />;
   }
 }
 
