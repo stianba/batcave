@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Batcave from '../components/Batcave';
+import Batcave from '../components/batcave';
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
