@@ -18,8 +18,8 @@ class Slogan extends Component {
     return(
       <div>
         <h1>{this.props.slogan.text}</h1>
-        <p>Poster: {this.props.slogan.poster}.</p>
-        <p>Time since postage: {this.state.sincePostage}.</p>
+        <p style={{marginBottom: '.4em'}}>poster://<span className='hl'>{this.props.slogan.poster}</span></p>
+        <p style={{marginTop: '.4em'}}>score://<span className='hl'>{this.state.sincePostage}</span></p>
       </div>
     );
   }
@@ -33,6 +33,10 @@ class Slogan extends Component {
       this.setState({
         sincePostage: moment().diff(moment(this.props.slogan.time))
       });
+
+      if (moment(moment()).isAfter(this.props.slogan.lockedUntil)) {
+        this.props.onUnlockSlogan();
+      }
     }, 1);
   }
 }

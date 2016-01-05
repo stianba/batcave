@@ -1,6 +1,8 @@
 body {
   background: url('/images/batcave.gif');
   background-size: cover;
+  font-family: Arial, sans-serif;
+  font-size: 1.2em;
   height: 100%;
   margin: 0;
 }
@@ -11,10 +13,66 @@ h1 {
 }
 
 p {
-  color: rgba(255, 255, 255, .6);
-  font-family: Arial, sans-serif;
+  color: rgba(235, 19, 33, .6);
+}
+
+.hl {
+  color: rgba(235, 19, 33, 1);
+  text-shadow: 0 0 3px rgba(235, 19, 33, 1);
+}
+
+label {
+  color: rgba(255, 255, 255, 1);
+}
+
+form {
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  display: block;
+  margin: 1em 0 .5em;
+}
+
+input {
+  box-sizing: border-box;
+  color: rgba(235, 19, 33, 1);
+  display: block;
+  font-size: 1.4em;
+  font-weight: bold;
+  padding: .4em .5em;
+  width: 100%;
+}
+
+button {
+  background: #EB1321;
+  border: none;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, .3);
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 1rem;
+  padding: .5em;
+  width: 100%;
+}
+
+button.locked {
+  cursor: not-allowed;
+  opacity: .5;
 }
 
 .app {
   padding: 4em;
+}
+
+.half {
+  box-sizing: border-box;
+  margin: -2rem;
+  padding: 2rem;
+  width: 50%;
 }
