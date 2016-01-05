@@ -1,6 +1,6 @@
 import express from 'express';
 import moment from 'moment';
-import {slogans, currentSlogan} from './slogans.js';
+import {slogans, currentSlogan} from './slogans';
 const router = express.Router();
 
 router.get('/slogan', (req, res) => {
@@ -9,10 +9,10 @@ router.get('/slogan', (req, res) => {
 
 router.post('/slogan', (req, res) => {
   if (!req.body.text) return res.json({code: 'error'});
-  if (!req.body.person) return res.json({code: 'error'});
+  if (!req.body.poster) return res.json({code: 'error'});
 
   currentSlogan.text = req.body.text;
-  currentSlogan.person = req.body.person;
+  currentSlogan.poster = req.body.poster;
   currentSlogan.time = moment();
   currentSlogan.lastLocked = currentSlogan.time;
   currentSlogan.lockedUntil = moment(currentSlogan.lastLocked).add(10, 's');

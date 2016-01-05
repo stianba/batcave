@@ -1,10 +1,10 @@
 let slogans = [];
 let currentSlogan = {
   text: `You're beautiful, Santa Claus.`,
-  person: null,
-  time: null,
-  lockedUntil: null,
-  lastLocked: null,
+  poster: `Ballefrans`,
+  time: '2016-01-05T09:40:05.426Z',
+  lockedUntil: '2016-01-05T09:40:05.426Z',
+  lastLocked: '2016-01-05T09:40:05.426Z',
 };
 
 export {slogans, currentSlogan};

@@ -6,7 +6,7 @@ class Slogan extends Component {
     super(props);
 
     this.state = {
-      time: this.props.time
+      sincePostage: moment().diff(moment(this.props.slogan.time))
     };
   }
 
@@ -17,8 +17,9 @@ class Slogan extends Component {
   render() {
     return(
       <div>
-        <h1>{this.props.slogan}</h1>
-        <p>Time since postage: {this.state.time}.</p>
+        <h1>{this.props.slogan.text}</h1>
+        <p>Poster: {this.props.slogan.poster}.</p>
+        <p>Time since postage: {this.state.sincePostage}.</p>
       </div>
     );
   }
@@ -30,9 +31,9 @@ class Slogan extends Component {
 
     window.setInterval(() => {
       this.setState({
-        time: this.state.time + 1
+        sincePostage: moment().diff(moment(this.props.slogan.time))
       });
-    }, 1000);
+    }, 1);
   }
 }
 

@@ -8,5 +8,13 @@ body {
 h1 {
   color: #fff;
   margin: 0;
-  padding: 2em;
+}
+
+p {
+  color: rgba(255, 255, 255, .6);
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  padding: 4em;
 }
