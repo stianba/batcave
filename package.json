@@ -4,7 +4,8 @@
   "description": "It's not what you think",
   "main": "start.js",
   "engines": {
-    "node" : "5.1.0"
+    "node": "5.1.0",
+    "npm": "3.4.1"
   },
   "scripts": {
     "postinstall": "browserify ./resources/js/app.js -o ./public/app.js",
