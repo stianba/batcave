@@ -3,6 +3,7 @@ import moment from 'moment';
 import $ from 'jquery';
 import Slogan from './slogan';
 import Post from './post';
+import Leaderboards from './leaderboards';
 
 class Batcave extends Component {
   constructor(props) {
@@ -47,6 +48,7 @@ class Batcave extends Component {
           <Post locked={this.state.locked} onHandlePost={this.newSlogan} />
         </div>
         <div className='half right'>
+          <Leaderboards slogans={this.state.topList} />
         </div>
       </div>
     );
