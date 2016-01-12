@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import moment from 'moment';
 import $ from 'jquery';
 import Slogan from './slogan';
@@ -16,9 +17,11 @@ class Batcave extends Component {
 
     this.newSlogan = this.newSlogan.bind(this);
     this.unlockSlogan = this.unlockSlogan.bind(this);
+    this.lockSlogan = this.lockSlogan.bind(this);
   }
 
   componentDidMount() {
+    this.__socket();
     this.__fetchSlogan();
   }
 
@@ -35,12 +38,19 @@ class Batcave extends Component {
     });
   }
 
+  lockSlogan(slogan) {
+    this.setState({
+      currentSlogan: slogan,
+      locked: true
+    });
+  }
+
   render() {
     return(
       <div className='app'>
         {
           this.state.currentSlogan
-          ? <Slogan slogan={this.state.currentSlogan} onUnlockSlogan={this.unlockSlogan} />
+          ? <Slogan slogan={this.state.currentSlogan} locked={this.state.locked} onUnlockSlogan={this.unlockSlogan} onLockSlogan={this.lockSlogan} />
           : <h1>Loading...</h1>
         }
         <hr />
@@ -52,6 +62,26 @@ class Batcave extends Component {
         </div>
       </div>
     );
+  }
+
+  __socket() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    const socket = io();
+    socket.on('new', slogan => {
+      this.newSlogan(slogan);
+    });
+
+    socket.on('lock', payload => {
+      const slogan = Object.assign(
+        {},
+        this.state.currentSlogan,
+        {lockedUntil: payload.lockedUntil}
+      );
+      this.lockSlogan(slogan);
+    });
   }
 
   __fetchSlogan() {

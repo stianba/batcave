@@ -1,8 +1,8 @@
 import express from 'express';
-import socketIO from 'socket.io';
 import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import socket from './api/socket';
 import apiRoutes from './api/routes';
 import Batcave from './resources/components/batcave';
 
@@ -19,11 +19,7 @@ const server = app.listen(port, () => {
   console.log(`Server runnifying on port ${port}`);
 });
 
-const io = socketIO(server);
-
-io.on('connection', socket => {
-  console.log(`Someone connected`);
-});
+socket.listen(server);
 
 app.get('/', (req, res) => {
   const markup = ReactDOMServer.renderToString(<Batcave />);
@@ -31,3 +27,5 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', apiRoutes);
+
+export default app;
