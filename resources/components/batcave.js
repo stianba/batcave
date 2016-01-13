@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
+import _ from 'lodash';
 import moment from 'moment';
 import $ from 'jquery';
 import Slogan from './slogan';
@@ -12,7 +13,8 @@ class Batcave extends Component {
 
     this.state = {
       currentSlogan: null,
-      locked: false
+      locked: false,
+      leaderboards: []
     };
 
     this.newSlogan = this.newSlogan.bind(this);
@@ -23,12 +25,15 @@ class Batcave extends Component {
   componentDidMount() {
     this.__socket();
     this.__fetchSlogan();
+    this.__fetchLeaderboards();
   }
 
   newSlogan(slogan) {
     this.setState({
       currentSlogan: slogan,
       locked: true
+    }, () => {
+      this.__handleTime();
     });
   }
 
@@ -38,10 +43,29 @@ class Batcave extends Component {
     });
   }
 
-  lockSlogan(slogan) {
-    this.setState({
-      currentSlogan: slogan,
-      locked: true
+  lockSlogan() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    $.post(
+      '/api/currentSlogan/lock',
+      {slogan: this.state.currentSlogan.id},
+      response => {
+        if (response.hasOwnProperty('code')) {
+          if (response.code === 'success') {
+            const slogan = Object.assign(
+              {},
+              this.state.currentSlogan,
+              {lockedUntil: response.lockedUntil}
+            );
+
+            this.setState({
+              currentSlogan: slogan,
+              locked: true
+            });
+          }
+        }
     });
   }
 
@@ -58,7 +82,8 @@ class Batcave extends Component {
           <Post locked={this.state.locked} onHandlePost={this.newSlogan} />
         </div>
         <div className='half right'>
-          <Leaderboards slogans={this.state.topList} />
+          <h2>Leaderboards</h2>
+          {this.state.leaderboards.length ? <Leaderboards leaderboards={this.state.leaderboards} currentSlogan={this.state.currentSlogan} /> : null}
         </div>
       </div>
     );
@@ -93,8 +118,67 @@ class Batcave extends Component {
       this.setState({
         currentSlogan: currentSlogan,
         locked: moment(moment()).isBefore(currentSlogan.lockedUntil)
+      }, () => {
+        this.__handleTime();
       });
     });
+  }
+
+  __fetchLeaderboards() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    $.getJSON('/api/leaderboards', leaderboards => {
+      this.setState({
+        leaderboards: leaderboards
+      });
+    });
+  }
+
+  __handleTime() {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    window.setInterval(() => {
+      const scoredSlogan = Object.assign(
+        {},
+        this.state.currentSlogan,
+        {score: moment().diff(moment(this.state.currentSlogan.time))}
+      );
+
+      this.setState({
+        currentSlogan: scoredSlogan,
+        leaderboards: this.__handleLiveLeaderboards(
+          this.state.leaderboards,
+          scoredSlogan
+        )
+      });
+
+      if (moment(moment()).isAfter(this.state.currentSlogan.lockedUntil)) {
+        this.unlockSlogan();
+      }
+    }, 1);
+  }
+
+  __handleLiveLeaderboards(leaderboards, slogan) {
+    if (!slogan.hasOwnProperty('id')) {
+      return leaderboards;
+    }
+
+    const index = _.findIndex(
+      leaderboards,
+      {id: slogan.id}
+    );
+
+    if (index < 0) {
+      leaderboards.push(slogan);
+    } else {
+      leaderboards[index].score = slogan.score;
+    }
+
+    return _.sortByOrder(leaderboards, 'score', 'desc');
   }
 }
 

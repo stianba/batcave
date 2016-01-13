@@ -36,6 +36,7 @@ class Post extends Component {
 
     $.post('/api/slogan', data, response => {
       if (response.hasOwnProperty('text')) {
+        console.log(response);
         this.props.onHandlePost(response);
       }
     });
