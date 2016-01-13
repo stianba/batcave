@@ -78,12 +78,14 @@ class Batcave extends Component {
           : <h1>Loading...</h1>
         }
         <hr />
-        <div className='half left'>
-          <Post locked={this.state.locked} onHandlePost={this.newSlogan} />
-        </div>
-        <div className='half right'>
-          <h2>Leaderboards</h2>
-          {this.state.leaderboards.length ? <Leaderboards leaderboards={this.state.leaderboards} currentSlogan={this.state.currentSlogan} /> : null}
+        <div className='columns'>
+          <div className='half left'>
+            <Post locked={this.state.locked} onHandlePost={this.newSlogan} />
+          </div>
+          <div className='half right'>
+            <h2>Leaderboards</h2>
+            {this.state.leaderboards.length ? <Leaderboards leaderboards={this.state.leaderboards} currentSlogan={this.state.currentSlogan} /> : null}
+          </div>
         </div>
       </div>
     );

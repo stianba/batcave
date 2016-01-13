@@ -17,7 +17,12 @@ class Leaderboards extends Component {
 
       return(
         <li className='leaderboards__item'>
-          {position}. Score: {slogan.score}
+          <div className='leaderboards__slogan'>
+            <span className='leaderboards__position'>{position}.</span>
+            {slogan.text}
+          </div>
+          <div className='leaderboards__poster'>By {slogan.poster}</div>
+          <div className='leaderboards__score'>{slogan.score}</div>
         </li>
       );
     });
