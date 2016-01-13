@@ -105,7 +105,11 @@ class Batcave extends Component {
         this.state.currentSlogan,
         {lockedUntil: payload.lockedUntil}
       );
-      this.lockSlogan(slogan);
+
+      this.setState({
+        currentSlogan: slogan,
+        locked: true
+      });
     });
   }
 
